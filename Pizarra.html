@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pizarra</title>
+        <style type="text/css">
+        html
+        {
+            font-family: Arial;
+            background-color: #00539F;
+            color: #000000;
+        }
+        body
+        {
+            width: 1350px;
+            margin: 0 auto;
+            background-color: #FF9500;
+            padding: 0 20px 20px 20px;
+            border: 5px solid black;
+        }
+        canvas
+        {
+            display: block;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        h1
+        {
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+            color: #00539F;
+            text-shadow: 3px 3px 1px black;
+        }
+        p
+        {
+            font-size: 20px;
+            line-height: 2;
+            letter-spacing: 1px;
+        }
+        li
+        {
+            font-size: 16px;
+            line-height: 2;
+            letter-spacing: 1px;
+        }
+        a
+        {
+            color: #0084ff;
+        }
+        input
+        {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Dibujando en la pizarra</h1>
+        <p><strong><a href="../" title="Inicio">Volver</a></strong></p>
+        <p>
+            Puedes probar a presionar las flechas del teclado (empieza desde el centro), o tambien prueba hacer click en la pizarra:
+            <br/>
+            <br/>
+            <canvas style= "border: 3px solid #000000" width="1200" height="600" id="dibujo_canvas"></canvas>
+            <br/>
+            Puedes presionar la tecla "R" para borrar el lienzo, o tambien: <input type="button" value="Borrar lienzo" id="boton1"/> 
+            <br/>
+            Color: <input type="color" id="cajaDeColor" oninput="definirColor(this.value)"/>
+            Grosor de la linea: 1<input type="range" min="1" max="5" value="1" id="grosorLinea" oninput="definirGrosor(this.value)"/>5
+            <br/>
+            <br/>
+            Hay ciertos problemas tecnicos con el codigo:
+            <ul>
+                <li>El dibujo del teclado esta apartado de el dibujo del mouse.</li>
+                <li>Si por casualidad el dibujo del canvas esta apartado del cursor, solo tienes que subir hasta lo mas alto de la pagina y recargar.</li>
+            </ul>
+        </p>
+        <script type="text/javascript">
+            var cuadro = document.getElementById("dibujo_canvas");
+            var lienzo = cuadro.getContext("2d");
+            var Coordenadas = cuadro.getBoundingClientRect();
+
+            var botonBase1 = document.getElementById("boton1");
+            botonBase1.addEventListener("click", borrarCanvas);
+
+            document.addEventListener("mouseup", clickUnpress);
+            document.addEventListener("mousedown", clickPress);
+            document.addEventListener("mousemove", dibujoMouse);
+
+            document.addEventListener("keydown", dibujoTeclado);
+
+            var flechas =
+            {
+                UP: 38,
+                DOWN: 40,
+                LEFT: 37,
+                RIGHT: 39,
+                R: 82
+            };
+
+            var xi, yi, xf, yf, x, y, movimiento, colorcito, movimientoBorrar, estadoClick, xMouse, yMouse, grosor;
+            var estadoClick = 0;
+            var movimientoBorrar = 1;
+            var movimiento = 1;
+            var x = 500;
+            var y = 275;
+            var xi = x;
+            var yi = y;
+            var xf = x;
+            var yf = y;
+
+            dibujarEnCanvas(colorcito,xi - movimientoBorrar, yi - movimientoBorrar, xf + movimientoBorrar, yf + movimientoBorrar);
+
+            function dibujoTeclado(evento)
+            {
+
+                switch(evento.keyCode)
+                {
+                    case flechas.UP:
+                        dibujarEnCanvas(colorcito,xi, yi, xf, yf - movimiento);
+                        yi = yi - movimiento;
+                        yf = yf - movimiento;
+                    break;
+
+                    case flechas.DOWN:
+                        dibujarEnCanvas(colorcito,xi, yi, xf, yf + movimiento);
+                        yi = yi + movimiento;
+                        yf = yf + movimiento;
+                    break;
+                    
+                    case flechas.LEFT:
+                        dibujarEnCanvas(colorcito,xi, yi, xf - movimiento, yf);
+                        xi = xi - movimiento;
+                        xf = xf - movimiento;
+                    break;
+                    
+                    case flechas.RIGHT:
+                        dibujarEnCanvas(colorcito,xi, yi, xf + movimiento, yf);
+                        xi = xi + movimiento;
+                        xf = xf + movimiento;
+                    break;
+
+                    case flechas.R:
+                        lienzo.clearRect(0, 0, cuadro.width, cuadro.height);
+                        dibujarEnCanvas(colorcito,xi - movimientoBorrar, yi - movimientoBorrar, xf + movimientoBorrar, yf + movimientoBorrar);
+                    break;
+
+                    default:
+                        
+                    break;
+                }
+            }
+
+            function dibujoMouse(evento)
+            {
+
+                if (estadoClick == 1) 
+                {
+                dibujarEnCanvas(colorcito, xMouse, yMouse, evento.pageX - Coordenadas.left, evento.pageY - Coordenadas.top, lienzo);
+                    {
+                        xMouse = evento.pageX - Coordenadas.left;
+                        yMouse = evento.pageY - Coordenadas.top;
+                    }
+                }
+            }
+
+            function clickPress(evento)
+            {
+                estadoClick = 1;
+                xMouse = evento.pageX - Coordenadas.left;
+                yMouse = evento.pageY - Coordenadas.top;
+            }
+
+            function clickUnpress(evento)
+            {
+                dibujarEnCanvas(colorcito, xMouse, yMouse, evento.pageX - Coordenadas.left, evento.pageY - Coordenadas.top, lienzo);
+                xMouse = 0;
+                yMouse = 0;
+                estadoClick = 0;
+            }
+
+            function definirColor(c)
+            {
+                colorcito = c;
+            }
+
+            function definirGrosor(g)
+            {
+                grosor = g;
+            }
+
+            function borrarCanvas()
+            {
+                var movimientoBorrar = 1;
+                lienzo.clearRect(0, 0, cuadro.width, cuadro.height);
+                dibujarEnCanvas(colorcito,xi - movimientoBorrar, yi - movimientoBorrar, xf + movimientoBorrar, yf + movimientoBorrar);
+            }
+
+            function dibujarEnCanvas(color, xinicial, yinicial, xfinal, yfinal)
+            {
+                lienzo.beginPath();
+                lienzo.strokeStyle = color;
+                lienzo.lineWidth = grosor;
+                lienzo.moveTo(xinicial, yinicial);
+                lienzo.lineTo(xfinal, yfinal);
+                lienzo.stroke();
+                lienzo.closePath();
+            }
+        </script>
+    </body>
+</html>

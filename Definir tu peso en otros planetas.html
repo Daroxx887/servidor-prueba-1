@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Prueba 2 Curso Programacion</title>
+        <style type="text/css">
+        html
+        {
+            font-family: Arial;
+            background-color: #00539F;
+            color: #000000;
+        }
+        body
+        {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #FF9500;
+            padding: 0 20px 20px 20px;
+            border: 5px solid black;
+        }
+        h1
+        {
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+            color: #00539F;
+            text-shadow: 3px 3px 1px black;
+        }
+        p
+        {
+            font-size: 20px;
+            line-height: 2;
+            letter-spacing: 1px;
+        }
+        a
+        {
+            color: #0084ff;
+        }
+        input
+        {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Tu peso en otro planeta</h1>
+        <p><strong><a href="../" title="Inicio">Volver</a></strong></p>
+        <p>Bienvenid@, aca podras poner tu peso actual, y mediante eso podras compararlo en otros planetas, adelante.</p>
+        <p>
+            <br/>
+            Cual es tu peso? <input type="number" id="textoPeso"/>
+            <br/>
+            <br/>
+            1)Tierra, 2)Pluton, 3)Mercurio, 4)Marte, 5)Urano, 6)Venus, 7)Saturno, 8)Neptuno, 9)Jupiter
+            <br/>
+            <br/>
+            Elige tu planeta entre la siguiente lista:
+            <input type="number" id="cajaTexto1" min="1" max="9"/>
+            <input type="button" value="Proceder" id="boton"/>
+            <br/>
+            <br/>
+        </p>
+        <p id="resultado"></p>
+        <script type="text/javascript">
+            var resultadoEstado = false;
+
+            var boton, textoNum1, textoNum2, texto;
+
+            var respuesta = document.getElementById("resultado");
+            var textoPeso = document.getElementById("textoPeso");
+            var texto = document.getElementById("cajaTexto1");
+            var boton = document.getElementById("boton");
+            boton.addEventListener("click", funcionParaBoton);
+
+            var usuario;
+            var planeta;
+            var peso;
+
+            var g_tierra = 9.8;
+            var g_pluton = 0.62;
+            var g_mercurio = 3.7;
+            var g_marte = 3.711;
+            var g_urano = 8.7;
+            var g_venus = 8.87;
+            var g_saturno = 10.44;
+            var g_neptuno = 11.15;
+            var g_jupiter = 28.4;
+            var peso_final, planeta_final;
+
+            function funcionParaBoton()
+            {
+                usuario = textoPeso.value;
+                peso = parseFloat(usuario);
+                planeta = parseInt(texto.value);
+                    
+                if (planeta == 1)
+                {
+                    peso_final = peso;
+                    planeta_final = "Tierra";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 2)
+                {
+                    peso_final = peso * g_pluton / g_tierra;
+                    planeta_final = "Pluton";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 3)
+                {
+                    peso_final = peso * g_mercurio / g_tierra;
+                    planeta_final = "Mercurio";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 4)
+                {
+                    peso_final = peso * g_marte / g_tierra;
+                    planeta_final = "Marte";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 5)
+                {
+                    peso_final = peso * g_urano / g_tierra;
+                    planeta_final = "Urano";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 6)
+                {
+                    peso_final = peso * g_venus / g_tierra;
+                    planeta_final = "Venus";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 7)
+                {
+                    peso_final = peso * g_saturno / g_tierra;
+                    planeta_final = "Saturno";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 8)
+                {
+                    peso_final = peso * g_neptuno / g_tierra;
+                    planeta_final = "Neptuno";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (planeta == 9)
+                {
+                    peso_final = peso * g_jupiter / g_tierra;
+                    planeta_final = "Jupiter";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else
+                {
+                    peso_final = peso;
+                    planeta_final = "debes escojer adecuadamente un planeta";
+                    peso_final = (peso_final.toFixed(2));
+                    resultadoEstado = true;
+                }
+
+                mostrarResultado();
+            }
+
+            function mostrarResultado()
+            {
+                if(resultadoEstado == true)
+                {
+                    respuesta.innerHTML = "Tu peso en el planeta <strong>" + planeta_final + "</strong> es de <strong>" + peso_final + " Kilos</strong>"
+                }
+            }
+        </script>
+    </body>
+</html>

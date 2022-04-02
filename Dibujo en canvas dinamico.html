@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Dibujo de lineas</title>
+        <style type="text/css">
+        html
+        {
+            font-family: Arial;
+            background-color: #00539F;
+            color: #000000;
+        }
+        body
+        {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #FF9500;
+            padding: 0 20px 20px 20px;
+            border: 5px solid black;
+        }
+        h1
+        {
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+            color: #00539F;
+            text-shadow: 3px 3px 1px black;
+        }
+        canvas
+        {
+            display: block;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        p
+        {
+            font-size: 20px;
+            line-height: 2;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        a
+        {
+            text-align: left;
+            color: #0084ff;
+            font-size: 20px;
+            line-height: 2;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        input
+        {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Dibujo lineal</h1>
+        <strong><a href="../" title="Inicio">Volver</a></strong>
+        <p>
+            Cuantas lineas quieres?
+            <br/>
+            Color: <input type="color" id="cajaDeColor" oninput="definirColor(this.value)"/> <input type="number" id="caja_de_texto"/>
+            <input type="button" value="Proceder" id="boton"/>
+        </p>
+        <canvas style="border: 3px solid #000000" width="300" height="300" id="dibujo_canvas"></canvas>
+        <p>
+            Asi queda el resultado.
+            <br/>
+            Puedes borrar las lineas con:<input type="button" value="Borrar" id="boton1"/>
+        </p>
+        <script type="text/javascript">
+            var cuadro = document.getElementById("dibujo_canvas");
+            var lienzo = cuadro.getContext("2d");
+            var Coordenadas = cuadro.getBoundingClientRect();
+
+            var botonBase1 = document.getElementById("boton1");
+            botonBase1.addEventListener("click", borrarCanvas);
+
+            var textoBase = document.getElementById("caja_de_texto");
+            var botonBase = document.getElementById("boton");
+            botonBase.addEventListener("click", funcionParaBoton);
+
+            var alto = cuadro.height;
+            var ancho = cuadro.width;
+
+            var movimientoBorrar;
+
+            var colorcito, lineas, xi, yi, xf, yf;
+            var l = 0;
+
+            function funcionParaBoton()
+            {
+                var textoFinal = parseInt(textoBase.value);
+                var lineas = textoFinal;
+                var espacio = ancho / lineas;
+
+                for(l = 0; l < lineas; l++)
+                {
+
+                    yi = espacio * l;
+                    xf = espacio * (l + 1);
+                    dibujarEnCanvas(colorcito,0,yi,xf,300);
+                }
+                    
+                for(l = 0; l < lineas; l++)
+                {
+
+                    yi = espacio * l;
+                    xf = espacio * (l + 1);
+                    dibujarEnCanvas(colorcito,300,yi,xf,0);
+                }
+
+                for(l = 0; l < lineas; l++)
+                {
+                    yi = espacio * l;
+                    xf = 300 - (espacio * (l + 1))
+                    dibujarEnCanvas(colorcito,0,yi,xf,0)
+                }
+
+                for(l = 0; l < lineas; l++)
+                {
+                    xi = espacio * l;
+                    yf = 290 - (espacio * (l + 1));
+                    dibujarEnCanvas(colorcito,xi,300,300,yf)
+                }
+                
+            }
+
+            function definirColor(c)
+            {
+                colorcito = c;
+            }
+
+            function borrarCanvas()
+            {
+                movimientoBorrar = 1;
+                lienzo.clearRect(0, 0, cuadro.width, cuadro.height);
+            }
+
+            function dibujarEnCanvas(color, xinicial, yinicial, xfinal, yfinal)
+            {
+                lienzo.beginPath();
+                lienzo.strokeStyle = color;
+                lienzo.moveTo(xinicial, yinicial);
+                lienzo.lineTo(xfinal, yfinal);
+                lienzo.stroke();
+                lienzo.closePath();
+            }
+        </script>
+    </body>
+</html>

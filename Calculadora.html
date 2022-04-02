@@ -1,0 +1,130 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Calculadora</title>
+        <style type="text/css">
+        html
+        {
+            font-family: Arial;
+            background-color: #00539F;
+            color: #000000;
+        }
+        body
+        {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #FF9500;
+            padding: 0 20px 20px 20px;
+            border: 5px solid black;
+        }
+        h1
+        {
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+            color: #00539F;
+            text-shadow: 3px 3px 1px black;
+        }
+        p
+        {
+            font-size: 20px;
+            line-height: 2;
+            letter-spacing: 1px;
+        }
+        a
+        {
+            color: #0084ff;
+        }
+        input
+        {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Calculadora</h1>
+        <p><strong><a href="../" title="Inicio">Volver</a></strong></p>
+        <p>Bienvenid@ a esta pagina, donde tendras la disposicion de usar una calculadora basica.</p>
+        <p>
+            Vamos, prueba a escojer 2 numeros, y el tipo de operacion:
+            <br/>
+            <br/>
+            Numero 1:
+            <input type="number" id="textoNumerico1"/>
+            <br/>
+            <br/>
+            Numero 2:
+            <input type="number" id="textoNumerico2"/>
+            <br/>
+            <br/>
+            1)Suma, 2)Resta, 3)Multiplicacion, 4)Division
+            <br/>
+            <br/>
+            Escribe el numero del tipo de operacion que desees:
+            <input type="number" id="cajaTexto1" min="1" max="4"/>
+            <input type="button" value="Proceder" id="boton"/>
+        </p>
+        <p id="resultado"></p>
+        <script type="text/javascript">
+            var resultadoEstado = false;
+
+            var boton, textoNum1, textoNum2, texto;
+
+            var num1, num2, operacion, r;
+
+            var respuesta = document.getElementById("resultado");
+            var textoNum1 = document.getElementById("textoNumerico1");
+            var textoNum2 = document.getElementById("textoNumerico2");
+            var texto = document.getElementById("cajaTexto1");
+            var boton = document.getElementById("boton");
+            boton.addEventListener("click", funcionParaBoton);
+
+            function funcionParaBoton()
+            {
+                var num1 = parseFloat(textoNum1.value);
+                var num2 = parseFloat(textoNum2.value);
+                var operacion = parseInt(texto.value);
+
+                if (operacion == 1)
+                {
+                    r = num1 + num2;
+                    r = (r.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (operacion == 2)
+                {
+                    r = num1 - num2;
+                    r = (r.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (operacion == 3)
+                {
+                    r = num1 * num2;
+                    r = (r.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else if (operacion == 4)
+                {
+                    r = num1 / num2;
+                    r = (r.toFixed(2));
+                    resultadoEstado = true;
+                }
+                else
+                {
+                    r = "debes escribir adecuadamente el proceso";
+                    resultadoEstado = true;
+                }
+                mostrarResultado();
+            }
+
+            function mostrarResultado()
+            {
+                if(resultadoEstado == true)
+                {
+                    respuesta.innerHTML = "Tu resultado es: <strong>" + r + "</strong>";
+                }
+            }
+        </script>
+    </body>
+</html>
