@@ -2,73 +2,92 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Dibujo de lineas</title>
-        <style type="text/css">
-        html
-        {
-            font-family: Arial;
-            background-color: #00539F;
-            color: #000000;
-        }
-        body
-        {
-            width: 800px;
-            margin: 0 auto;
-            background-color: #FF9500;
-            padding: 0 20px 20px 20px;
-            border: 5px solid black;
-        }
-        h1
-        {
-            text-align: center;
-            margin: 0;
-            padding: 20px 0;
-            color: #00539F;
-            text-shadow: 3px 3px 1px black;
-        }
-        canvas
-        {
-            display: block;
-            margin: 0 auto;
-            background-color: #ffffff;
-        }
-        p
-        {
-            font-size: 20px;
-            line-height: 2;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-        a
-        {
-            text-align: left;
-            color: #0084ff;
-            font-size: 20px;
-            line-height: 2;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-        input
-        {
-            background-color: #ffffff;
-            color: #000000;
-        }
+        <title>Dibujo geometrico</title>
+        <style>
+            html
+            {
+                font-family: Arial;
+                background-color: #00539F;
+                color: #000000;
+            }
+            body
+            {
+                width: 800px;
+                margin: 0 auto;
+                background-color: #FF9500;
+                padding: 0 20px 20px 20px;
+                border: 5px solid black;
+            }
+            h1
+            {
+                text-align: center;
+                margin: 0;
+                padding: 20px 0;
+                color: #00539F;
+                text-shadow: 3px 3px 1px black;
+            }
+            canvas
+            {
+                display: block;
+                margin: 0 auto;
+                background-color: #ffffff;
+            }
+            #entireText
+            {
+                font-size: 20px;
+                line-height: 2;
+                letter-spacing: 1px;
+                text-align: center;
+            }
+            input
+            {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            #notasCreador
+            {
+                font-size: 20px;
+                line-height: 2;
+                letter-spacing: 1px;
+            }
+            ul
+            {
+                font-size: 16px;
+                line-height: 2;
+                letter-spacing: 1px;
+            }
         </style>
     </head>
     <body>
-        <h1>Dibujo lineal</h1>
-        <strong><a href="../" title="Inicio">Volver</a></strong>
-        <p>
+        <h1>Dibujo geometrico</h1>
+        <p id="entireText">
             Cuantas lineas quieres?
             <br/>
             Color: <input type="color" id="cajaDeColor" oninput="definirColor(this.value)"/> <input type="number" id="caja_de_texto"/>
             <input type="button" value="Proceder" id="boton"/>
-        </p>
-        <canvas style="border: 3px solid #000000" width="300" height="300" id="dibujo_canvas"></canvas>
-        <p>
+            <br/>
+            Grosor de la linea: 1<input type="range" min="1" max="5" value="1" id="grosorLinea" oninput="definirGrosor(this.value)"/>5
+            <br/>
+            <canvas style="border: 3px solid #000000" width="700" height="700" id="dibujo_canvas"></canvas>
+            <br/>
             Asi queda el resultado.
             <br/>
             Puedes borrar las lineas con:<input type="button" value="Borrar" id="boton1"/>
+            <br/>
+            <br/>
+            Que tipo de forma deseas?
+            <br/>
+            <input type="range" min="1" max="4" value="1" id="tipoDeLinea" oninput="definirForma(this.value)"/>
+            <br/>
+            Lineal | Circular | Estrellada | Poligonal
+            <br/>
+        </p>
+        <p id="notasCreador">
+            Notas del creador:
+            <ul>
+                <li>Con el tipo de forma, mientras que las lineas es para dibujar una cantidad de lineas desde las 4 esquinas, el resto es para dibujar una cantidad de formas, segun el numero que se indique.</li>
+                <li>Los poligonos tienen un pequeño error y se dibujan inclinados.</li>
+            </ul>
         </p>
         <script type="text/javascript">
             var cuadro = document.getElementById("dibujo_canvas");
@@ -87,10 +106,34 @@
 
             var movimientoBorrar;
 
-            var colorcito, lineas, xi, yi, xf, yf;
+            var colorcito, lineas, xi, yi, xf, yf, grosor;
+            var formaGeo = 1;
             var l = 0;
 
             function funcionParaBoton()
+            {
+                if(formaGeo == 1)
+                {
+                    dibujarLineas();
+                }
+                
+                if(formaGeo == 2)
+                {
+                    dibujarCirculos();
+                }
+
+                if(formaGeo == 3)
+                {
+                    dibujarTriangulos();
+                }
+
+                if(formaGeo == 4)
+                {
+                    dibujarPoligonos();
+                }
+            }
+
+            function dibujarLineas()
             {
                 var textoFinal = parseInt(textoBase.value);
                 var lineas = textoFinal;
@@ -101,7 +144,7 @@
 
                     yi = espacio * l;
                     xf = espacio * (l + 1);
-                    dibujarEnCanvas(colorcito,0,yi,xf,300);
+                    dibujarEnCanvas(colorcito,0,yi,xf,700);
                 }
                     
                 for(l = 0; l < lineas; l++)
@@ -109,28 +152,70 @@
 
                     yi = espacio * l;
                     xf = espacio * (l + 1);
-                    dibujarEnCanvas(colorcito,300,yi,xf,0);
+                    dibujarEnCanvas(colorcito,700,yi,xf,0);
                 }
 
                 for(l = 0; l < lineas; l++)
                 {
                     yi = espacio * l;
-                    xf = 300 - (espacio * (l + 1))
+                    xf = 700 - (espacio * (l + 1))
                     dibujarEnCanvas(colorcito,0,yi,xf,0)
                 }
 
                 for(l = 0; l < lineas; l++)
                 {
                     xi = espacio * l;
-                    yf = 290 - (espacio * (l + 1));
-                    dibujarEnCanvas(colorcito,xi,300,300,yf)
+                    yf = 690 - (espacio * (l + 1));
+                    dibujarEnCanvas(colorcito,xi,700,700,yf)
                 }
-                
+            }
+
+            function dibujarCirculos()
+            {
+                var textoFinal = parseInt(textoBase.value);
+                var lineas = textoFinal;
+
+                for(var i = 0; i < lineas; i++)
+                {
+                    dibujarCirculosEnCanvas(colorcito, aleatorio(0,700), aleatorio(0,700), aleatorio(25,125));
+                }
+            }
+
+            function dibujarTriangulos()
+            {
+                var textoFinal = parseInt(textoBase.value);
+                var lineas = textoFinal;
+
+                for(var i = 0; i < lineas; i++)
+                {
+                    dibujarTriangulosEnCanvas(colorcito, aleatorio(0,700), aleatorio(0,700), aleatorio(25,125));
+                }
+            }
+
+            function dibujarPoligonos()
+            {
+                var textoFinal = parseInt(textoBase.value);
+                var lineas = textoFinal;
+
+                for(var i = 0; i < lineas; i++)
+                {
+                    dibujarPoligonosEnCanvas(colorcito, aleatorio(0,700), aleatorio(0,700), aleatorio(25,125));
+                }
             }
 
             function definirColor(c)
             {
                 colorcito = c;
+            }
+
+            function definirGrosor(g)
+            {
+                grosor = g;
+            }
+
+            function definirForma(fg)
+            {
+                formaGeo = fg;
             }
 
             function borrarCanvas()
@@ -143,10 +228,81 @@
             {
                 lienzo.beginPath();
                 lienzo.strokeStyle = color;
+                lienzo.lineWidth = grosor;
                 lienzo.moveTo(xinicial, yinicial);
                 lienzo.lineTo(xfinal, yfinal);
                 lienzo.stroke();
                 lienzo.closePath();
+            }
+
+            function dibujarCirculosEnCanvas(color, xinicial, yfinal, radio)
+            {
+                var X = xinicial;
+                var Y = yfinal;
+                var r = radio;
+                lienzo.beginPath();
+                lienzo.strokeStyle = color;
+                lienzo.lineWidth = grosor;
+                lienzo.arc(X, Y, r, 0, 2 * Math.PI);
+                lienzo.stroke();
+                lienzo.closePath();
+            }
+
+            function dibujarTriangulosEnCanvas(color, xinicial, yfinal, radio)
+            {
+                var X = xinicial;
+                var Y = yfinal;
+                var r = radio;
+
+                var L = aleatorio(5,12);
+                var paso = aleatorio(2,5);
+                                        
+                var estrella = L / paso
+                var rad = (2 * Math.PI) / estrella;
+
+
+                lienzo.beginPath();
+                lienzo.strokeStyle = color;
+                lienzo.lineWidth = grosor;
+                        for(var i = 0; i < L; i++)
+                        {
+                            x = X + r * Math.cos(rad * i);
+                            y = Y + r * Math.sin(rad * i);
+                            lienzo.lineTo(x, y);
+                        }
+                lienzo.closePath();
+                lienzo.stroke();
+            }
+
+            function dibujarPoligonosEnCanvas(color, xinicial, yfinal, radio)
+            {
+                var X = xinicial;
+                var Y = yfinal;
+                var r = radio;
+
+                var L = aleatorio(3,14);
+
+                var rad = (2 * Math.PI) / L;	
+
+                lienzo.strokeStyle = color;
+                lienzo.lineWidth = grosor;
+
+                lienzo.beginPath();
+                        for(var i = 0; i < L; i++)
+                        {
+                            x = X + r * Math.cos(rad * i);
+                            y = Y + r * Math.sin(rad * i);
+                            lienzo.lineTo(x, y);
+                        }
+                lienzo.closePath();
+                lienzo.stroke();
+            }
+
+            function aleatorio(digMin, digMax)
+            {
+                var resultadoAleatorio;
+                resultadoAleatorio = Math.floor(Math.random() * (digMax - digMin + 1)) + digMin;
+                return resultadoAleatorio;
             }
         </script>
     </body>
