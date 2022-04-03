@@ -112,6 +112,34 @@
 
             dibujarEnCanvas(colorcito,xi - movimientoBorrar, yi - movimientoBorrar, xf + movimientoBorrar, yf + movimientoBorrar);
 
+            function dibujoMouse(evento)
+            {
+
+                if (estadoClick == 1) 
+                {
+                dibujarEnCanvas(colorcito, xMouse, yMouse, evento.pageX - Coordenadas.left, evento.pageY - Coordenadas.top, lienzo);
+                    {
+                        xMouse = evento.pageX - Coordenadas.left;
+                        yMouse = evento.pageY - Coordenadas.top;
+                    }
+                }
+            }
+
+            function clickPress(evento)
+            {
+                estadoClick = 1;
+                xMouse = evento.pageX - Coordenadas.left;
+                yMouse = evento.pageY - Coordenadas.top;
+            }
+
+            function clickUnpress(evento)
+            {
+                dibujarEnCanvas(colorcito, xMouse, yMouse, evento.pageX - Coordenadas.left, evento.pageY - Coordenadas.top, lienzo);
+                xMouse = 0;
+                yMouse = 0;
+                estadoClick = 0;
+            }
+
             function dibujoTeclado(evento)
             {
 
@@ -150,34 +178,6 @@
                         
                     break;
                 }
-            }
-
-            function dibujoMouse(evento)
-            {
-
-                if (estadoClick == 1) 
-                {
-                dibujarEnCanvas(colorcito, xMouse, yMouse, evento.pageX - Coordenadas.left, evento.pageY - Coordenadas.top, lienzo);
-                    {
-                        xMouse = evento.pageX - Coordenadas.left;
-                        yMouse = evento.pageY - Coordenadas.top;
-                    }
-                }
-            }
-
-            function clickPress(evento)
-            {
-                estadoClick = 1;
-                xMouse = evento.pageX - Coordenadas.left;
-                yMouse = evento.pageY - Coordenadas.top;
-            }
-
-            function clickUnpress(evento)
-            {
-                dibujarEnCanvas(colorcito, xMouse, yMouse, evento.pageX - Coordenadas.left, evento.pageY - Coordenadas.top, lienzo);
-                xMouse = 0;
-                yMouse = 0;
-                estadoClick = 0;
             }
 
             function definirColor(c)
