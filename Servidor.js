@@ -9,7 +9,7 @@ app.get("/", inicio);
 app.get("/calculadora", calculadora);
 app.get("/textos", textos);
 app.get("/planetas", planetas);
-app.get("/lineas", lineas);
+app.get("/poligonos", poligonos);
 app.get("/pizarra", pizarra);
 
 function inicio(request, response)
@@ -32,7 +32,7 @@ function planetas(request, response)
     response.sendfile("Definir tu peso en otros planetas.html");
 }
 
-function lineas(request, response)
+function poligonos(request, response)
 {
     response.sendfile("Dibujo en canvas dinamico.html");
 }
