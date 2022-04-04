@@ -58,10 +58,36 @@
                 letter-spacing: 1px;
                 color: #0084ff;
             }
-            input
+            #cajaDeColor
             {
                 background-color: #ffffff;
                 color: #000000;
+            }
+            #caja_de_texto
+            {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            #boton
+            {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            #grosorLinea
+            {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            #boton1
+            {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            #tipoDeLinea
+            {
+                background-color: #ffffff;
+                color: #000000;
+                width: 380px;
             }
         </style>
     </head>
@@ -69,6 +95,13 @@
         <h1>Dibujo geometrico</h1>
         <p><strong><a href="../" title="Inicio">Volver</a></strong></p>
         <p id="entireText">
+            Que tipo de forma deseas?
+            <br/>
+            <input type="range" min="1" max="4" value="1" id="tipoDeLinea" oninput="definirForma(this.value)"/>
+            <br/>
+            Lineal | Circular | Estrellada | Poligonal
+            <br/>
+            <br/>
             Cuantas lineas quieres?
             <br/>
             Color: <input type="color" id="cajaDeColor" oninput="definirColor(this.value)"/> <input type="number" id="caja_de_texto"/>
@@ -78,17 +111,7 @@
             <br/>
             <canvas style="border: 3px solid #000000" width="700" height="700" id="dibujo_canvas"></canvas>
             <br/>
-            Asi queda el resultado.
-            <br/>
-            Puedes borrar las lineas con:<input type="button" value="Borrar" id="boton1"/>
-            <br/>
-            <br/>
-            Que tipo de forma deseas?
-            <br/>
-            <input type="range" min="1" max="4" value="1" id="tipoDeLinea" oninput="definirForma(this.value)"/>
-            <br/>
-            Lineal | Circular | Estrellada | Poligonal
-            <br/>
+            Puedes borrar las lineas con: <input type="button" value="Borrar" id="boton1"/>
         </p>
         <p id="notasCreador">
             Notas del creador:
