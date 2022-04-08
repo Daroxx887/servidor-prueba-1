@@ -9,37 +9,37 @@ app.get("/", inicio);
 app.get("/calculadora", calculadora);
 app.get("/textos", textos);
 app.get("/planetas", planetas);
-app.get("/poligonos", poligonos);
+app.get("/dibujo-geometrico", dibujoGeometrico);
 app.get("/pizarra", pizarra);
 
 function inicio(request, response)
 {
-    response.sendfile("Inicio.html");
+    response.sendfile("index.html");
 }
 
 function calculadora(request, response)
 {
-    response.sendfile("Calculadora.html");
+    response.sendfile("calculadora.html");
 }
 
 function textos(request, response)
 {
-    response.sendfile("Creador de textos.html");
+    response.sendfile("creador_de_textos.html");
 }
 
 function planetas(request, response)
 {
-    response.sendfile("Definir tu peso en otros planetas.html");
+    response.sendfile("definir_tu_peso_en_otros_planetas.html");
 }
 
-function poligonos(request, response)
+function dibujoGeometrico(request, response)
 {
-    response.sendfile("Dibujo en canvas dinamico.html");
+    response.sendfile("dibujo_geometrico.html");
 }
 
 function pizarra(request, response)
 {
-    response.sendfile("Pizarra.html");
+    response.sendfile("pizarra.html");
 }
 
 app.listen(8989);
